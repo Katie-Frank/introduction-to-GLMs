@@ -1,0 +1,21 @@
+\usepackage{mathtools, amssymb, bm, float, siunitx}
+
+\renewcommand{\l}{\left}
+\renewcommand{\r}{\right}
+\newcommand{\om}{\omega}
+\newcommand{\ga}{\gamma}
+\renewcommand{\th}{\theta}
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\la}{\lambda}
+\newcommand{\de}{\delta}
+\renewcommand{\si}{\sigma}
+\newcommand{\matr}[1]{\mathbf{#1}}
+
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
