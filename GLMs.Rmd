@@ -139,7 +139,7 @@ $$w_{ii} = \frac{1}{\text{Var}(Y_i|\matr{x}_i)}\l(\frac{\partial \mu_i}{\partial
 \hat{\bm{\be}} = (\matr{X}^{\prime}\matr{WX})^{-1}\matr{X}^{\prime}\matr{W}\matr{z}.\label{eq:irls}
 \end{equation}
 
-Repeat this procedure until the difference between successive approximations $\hat{\bm{\be}}^{(m)} - \hat{\bm{\be}}^{(m-1)}$ is smaller than some tolerance level. Equation \ref{eq:irls} is a convenient way of expressing the weighted least-squares estimate. It is equivalent to
+Repeat this procedure until the absolute difference between successive approximations $|\hat{\bm{\be}}^{(m)} - \hat{\bm{\be}}^{(m-1)}|$ is smaller than some tolerance level. Equation \ref{eq:irls} is a convenient way of expressing the weighted least-squares estimate. It is equivalent to
 
 \begin{equation}
 \hat{\bm{\be}}^{(m)} = \hat{\bm{\be}}^{(m-1)} + \mathcal{I}\l(\hat{\bm{\be}}^{(m-1)}\r)^{-1}U(\hat{\bm{\be}}^{(m-1)}),
@@ -187,7 +187,7 @@ In our specification for the conditional expectation of $Y_i$, we have
 
 \begin{align*}
 \text{E}[Y_i|x_i] = \mu_i &= \exp(\be_1 + \be_2x_i) \\
-  &= \matr{x}_i^{\prime}\bm{\be},
+  &= \exp(\matr{x}_i^{\prime}\bm{\be}),
 \end{align*}
 
 where $\bm{\be} = \begin{bmatrix}
@@ -228,12 +228,12 @@ We now have everything we need to find the maximum likelihood estimates (MLEs). 
 \vskip .1in
 
 ```{r}
-irls_exp <- function(x, y, be1, be2, max_iter = 100, tol = 1e-5){
+irls_exp <- function(x, y, be1, be2, max_iter = 100, tol = 1e-5) {
   X <- matrix(c(rep(1, length(x)), x), ncol = 2)
   be <- matrix(c(be1, be2), ncol = 1)
   be_prev <- be
   
-  for(iter in 1:max_iter){
+  for (iter in 1:max_iter) {
     z <- X %*% be + y / (exp(X %*% be)) - 1
     cov_mat <- solve(t(X) %*% X) 
     be <- cov_mat %*% t(X) %*% z
@@ -258,7 +258,7 @@ An approximate $95\%$ Wald confidence interval for $\be_2$ is
 
 $$-1.1093 \pm 1.96(0.3997) = (-1.8927, -0.3259).$$
 
-Interpretation: for every 1 unit increase in $\log_{10}$(initial WBC count) the average survival time multiplies by $\exp(\hat{\be}_2) = 0.3298$.
+Interpretation: for every 1 unit increase in $\log_{10}$(initial WBC count) the average survival time multiplies by $\exp(\hat{\be}_2) = 0.3298$. In short, it decreases.
 
 Instead of creating our own function to fit the model, we could have used \textsf{R}'s `glm()` function.
 

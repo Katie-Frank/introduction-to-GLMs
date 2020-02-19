@@ -21,12 +21,12 @@ ggplot(dat, aes(log_wbc, surv_weeks)) +
   ylab("Survival time (weeks)")
 
 # IRLS procedure
-irls_exp <- function(x, y, be1, be2, max_iter = 100, tol = 1e-5){
+irls_exp <- function(x, y, be1, be2, max_iter = 100, tol = 1e-5) {
   X <- matrix(c(rep(1, length(x)), x), ncol = 2)
   be <- matrix(c(be1, be2), ncol = 1)
   be_prev <- be
   
-  for(iter in 1:max_iter){
+  for (iter in 1:max_iter) {
     z <- X %*% be + y / (exp(X %*% be)) - 1
     cov_mat <- solve(t(X) %*% X) 
     be <- cov_mat %*% t(X) %*% z
