@@ -120,14 +120,14 @@ where $\eta_i = \matr{x}_i^{\prime}\bm{\be}$ is the linear predictor and $g$ is 
 A GLM consists of three components.
 
 1. *Random component* - the probability distribution of the response variable $y_i|\matr{x}_i$ (e.g.,  $y_i|\matr{x}_i \sim \text{N}(\mu_i, \si^2)$  in linear regression and $y_i|\matr{x}_i \sim \text{Bern}(\pi_i)$ in logistic regression).
-2. *Systematic component* - the linear combination of explanatory variables used to create the linear predictor (i.e., $\eta_i = \be_0 + \be_1x_{i1} + \cdots + \be_px_{ip}$).
+2. *Systematic component* - the linear combination of explanatory variables used to create the linear predictor (i.e., $\eta_i = \be_1 + \be_2x_{i2} + \cdots + \be_px_{ip}$).
 3. *Link function* - the connection between the random and systematic components. it says how $\mu_i$, the mean of $y_i|\matr{x}_i$, is related to the linear predictor $\eta_i = \matr{x}_i^{\prime}\bm{\be}$.
 
 If the link function connects the linear predictor $\eta_i$ and the canonical parameter $\th_i$ such that $\eta_i = \th_i$, then the link function is *canonical*.
 
 ## Estimation
 
-Estimation of the model parameters $\bm{\be} = (\be_0, \dots, \be_p )^{\prime}$ in a GLM are obtained through maximum likelihood using an iteratively reweighted least-squares (IRLS) algorithm. Here is how it works. Start off with an initial estimate of the parameters $\hat{\bm{\be}}$.
+Estimation of the model parameters $\bm{\be} = (\be_1, \dots, \be_p )^{\prime}$ in a GLM are obtained through maximum likelihood using an iteratively reweighted least-squares (IRLS) algorithm. Here is how it works: start off with an initial estimate of the parameters $\hat{\bm{\be}}$.
 
 1. Calculate the $n\times 1$ *working response* vector $\matr{z}$. The $i$th element of $\matr{z}$ is 
 $$z_i = \hat{\eta}_i + (y_i - \hat{\mu}_i)\l(\frac{\partial \eta_i}{\partial \mu_i}\r),$$
@@ -181,7 +181,7 @@ If we want to model the survival times based on $\log_{10}$(initial WBC count) o
 
 $$\text{E}[y_i|x_i] = \mu_i = \exp(\be_1 + \be_2x_i),$$
 
-where $y_i$ is the survival time and $x_i$ is the log WBC count. Here, the $\exp()$ in $\exp(\be_1 + \be_2x_i)$ is the inverse link function. So, we are working with the log link: $g(\mu_i) = \log(\mu_i)$. Unlike the canonical link, which is $g(\mu_i) - \mu_i^{-1}$, the log link ensures that $\mu_i$ is non-negative for all values of the parameters and $x_i$.
+where $y_i$ is the survival time and $x_i$ is the log WBC count. Here, the $\exp()$ in $\exp(\be_1 + \be_2x_i)$ is the inverse link function. So, we are working with the log link: $g(\mu_i) = \log(\mu_i)$. Unlike the canonical link, which is $g(\mu_i) = - \mu_i^{-1}$, the log link ensures that $\mu_i$ is non-negative for all values of the parameters and $x_i$.
 
 In our specification for the conditional expectation of $Y_i$, we have
 
